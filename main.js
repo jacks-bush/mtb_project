@@ -14,11 +14,11 @@ d3.select(".chart")
     .enter()
     // appends a new DOM element of the specified type for each new bound data point
     // IMPORTANT - this returns a new selection containing the appended elements
+    // since this is all of the elements we want to manipulate, we can just continue chaining methods afterwards
     .append("div")
-    // now that we
+    .style("width", function (d) { return d * 10 + "px"; })
 
 
-    
 
 
 
