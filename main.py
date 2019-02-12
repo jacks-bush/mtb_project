@@ -14,7 +14,7 @@ def main():
             stateDict[rideObj['state'].strip()] += 1
         else:
             stateDict[rideObj['state'].strip()] = 1
-    
+
     rideList = []
     for key in stateDict:
         rideList.append([key, stateDict[key]])

@@ -2,6 +2,10 @@ var svg = d3.select("svg");
 // var path = d3.geoPath();
 var data = [3, 17, 2, 146, 5]
 
+// define function to scale points
+var scaleLinearly = d3.scale.linear()
+                    .domain()
+
 // select container element
 d3.select(".chart")
     // initiate the data join. Defining the selection to which we will join data.
@@ -16,7 +20,14 @@ d3.select(".chart")
     // IMPORTANT - this returns a new selection containing the appended elements
     // since this is all of the elements we want to manipulate, we can just continue chaining methods afterwards
     .append("div")
+    // the style selector applies the specified style attribute which is the first parameter
+    // it also takes a function of (d) or even (d,i) as the second parameter, in which d is the data point (and i is the index of the data point)
+    // each iteration of the function must return a string which will be the value for that attribute
     .style("width", function (d) { return d * 10 + "px"; })
+    // another selector
+    .text(function (d) { return d; })
+    .style("background-color", "blue")
+    .style("color", "white")
 
 
 
