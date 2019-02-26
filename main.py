@@ -20,6 +20,9 @@ def main():
         rideList.append([key, stateDict[key]])
     rideList = sorted(rideList, key=lambda ride: ride[1])
     print(rideList)
+
+    # also need to get lat and long information. Should probably do this up front.
+    # https://maps.googleapis.com/maps/api/geocode/json?address=ParkCity,UT&key=MY_KEY_HERE
     # scraper = MtbProjectScraper(BASEPAGEURL)
     # scraper.getInfoFromSites()
     # with open('featuredRides.json', 'w', encoding='utf-8') as f:
