@@ -19,4 +19,16 @@
 // there are many of them but I am using Albers' equal area conic projection. Essentially maps the sphere (globe) onto a cone and then unrolls the cone onto a plane
 var albersProjection = d3.geoAlbers();
 
+// create path. paths are functions that translate GEOJson features into svg path data
+// GEOJson is a json format for representing geographical features, like Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon
+// the path function can handle all the GEOJson features
+var path = d3.geo.path
+    // specify the projection that should be used to translate the geo locations from the GEOJson to cartesian coordinates
+    .projection(albersProjection);
+
+d3.json('https://d3js.org/us-10m.v1.json', function (error, response){
+    if (error) throw error;
+
+    
+});
 </script>
