@@ -10,25 +10,33 @@
 <script src="https://d3js.org/d3-geo.v1.min.js"></script>
 <script src="https://unpkg.com/topojson-client@3"></script>
 <script>
-// basic steps for creating a map
-// 1. Create a projection function
-// 2. Create a path function
-// 3. Get GEOJson object as data, and draw map using the path function
+    // basic steps for creating a map
+    // 1. Create a projection function
+    // 2. Create a path function
+    // 3. Get GEOJson object as data, and draw map using the path function
 
-// create projection. projections are functions that take geo locations (lat, long), and return cartesian coordinates
-// there are many of them but I am using Albers' equal area conic projection. Essentially maps the sphere (globe) onto a cone and then unrolls the cone onto a plane
-var albersProjection = d3.geoAlbers();
+    // create projection. projections are functions that take geo locations (lat, long), and return cartesian coordinates
+    // there are many of them but I am using Albers' equal area conic projection. Essentially maps the sphere (globe) onto a cone and then unrolls the cone onto a plane
+    var albersProjection = d3.geoAlbers();
 
-// create path. paths are functions that translate GEOJson features into svg path data
-// GEOJson is a json format for representing geographical features, like Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon
-// the path function can handle all the GEOJson features
-var path = d3.geo.path
+    // create path. paths are functions that translate GEOJson features into svg path data
+    // GEOJson is a json format for representing geographical features, like Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon
+    // the path function can handle all the GEOJson features
     // specify the projection that should be used to translate the geo locations from the GEOJson to cartesian coordinates
-    .projection(albersProjection);
+    var path = d3.geoPath(albersProjection);
 
-d3.json('https://d3js.org/us-10m.v1.json', function (error, response){
-    if (error) throw error;
+    // get the json of the US from the d3.js site
+    d3.json('https://d3js.org/us-10m.v1.json', function (error, response) {
+        if (error) throw error;
+        alert(response);
 
-    
-});
+        // TopoJSON is an extension of GeoJSON that includes topology. Rather that representing geometris discretely,
+        // geometries are stitched together from shared line segments called arcs.
+        // d3.select('svg')
+
+        //     .selectAll('path')
+        //     .data(topojson.mesh());
+
+
+    });
 </script>
