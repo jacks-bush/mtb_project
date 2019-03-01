@@ -2,7 +2,6 @@
 
 <head>
     <style>
-        .main {}
     </style>
 </head>
 <svg class="main" width="960" height="600" fill="none" stroke="#000" stroke-linejoin="round"
@@ -29,9 +28,14 @@
     var path = d3.geoPath(albersProjection);
 
     // get the json of the US from the d3.js site
+    // perhaps I can just use the geoalbers projection for my points?
+    // http://bl.ocks.org/michellechandra/0b2ce4923dc9b5809922
+    // http://bl.ocks.org/phil-pedruco/7745589
+    
     d3.json('https://d3js.org/us-10m.v1.json').then(function (usData) {
         // TopoJSON is an extension of GeoJSON that includes topology. Rather than representing geometries discretely,
         // geometries are stitched together from shared line segments called arcs.
+        
         d3.select('svg')
             // add a wrapper element
             .append('g')
@@ -46,6 +50,6 @@
             .append('path')
             // major magic going on here. we're adding a d attribute and passing in the path function defined above
             // the path function takes the GeoJson data and translates it into svg path data
-            .attr('d', path);
+            .attr('d', d3.geoPath());
     });
 </script>
