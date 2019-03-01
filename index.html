@@ -2,12 +2,15 @@
 
 <head>
     <style>
+        .main {}
     </style>
 </head>
-<svg width="960" height="600" fill="none" stroke="#000" stroke-linejoin="round" stroke-linecap="round"></svg>
+<svg class="main" width="960" height="600" fill="none" stroke="#000" stroke-linejoin="round"
+    stroke-linecap="round"></svg>
 <script src="https://d3js.org/d3.v5.js"></script>
 <script src="https://d3js.org/d3-array.v1.min.js"></script>
 <script src="https://d3js.org/d3-geo.v1.min.js"></script>
+<script src="https://d3js.org/d3-fetch.v1.min.js"></script>
 <script src="https://unpkg.com/topojson-client@3"></script>
 <script>
     // basic steps for creating a map
@@ -26,17 +29,23 @@
     var path = d3.geoPath(albersProjection);
 
     // get the json of the US from the d3.js site
-    d3.json('https://d3js.org/us-10m.v1.json', function (error, response) {
-        if (error) throw error;
-        alert(response);
-
-        // TopoJSON is an extension of GeoJSON that includes topology. Rather that representing geometris discretely,
+    d3.json('https://d3js.org/us-10m.v1.json').then(function (usData) {
+        // TopoJSON is an extension of GeoJSON that includes topology. Rather than representing geometries discretely,
         // geometries are stitched together from shared line segments called arcs.
-        // d3.select('svg')
-
-        //     .selectAll('path')
-        //     .data(topojson.mesh());
-
-
+        d3.select('svg')
+            // add a wrapper element
+            .append('g')
+            // define the selector to which we will join data.
+            .selectAll('path')
+            // join topojson feature data for us states
+            .data(topojson.feature(usData, usData.objects.states).features)
+            // get a selection of all the data points (states) that have no corresponding DOM element
+            .enter()
+            // now add a path element for each state in the selection
+            // this returns a new selection of all the path elements that were just added
+            .append('path')
+            // major magic going on here. we're adding a d attribute and passing in the path function defined above
+            // the path function takes the GeoJson data and translates it into svg path data
+            .attr('d', path);
     });
 </script>
