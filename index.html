@@ -19,37 +19,57 @@
 
     // create projection. projections are functions that take geo locations (lat, long), and return cartesian coordinates
     // there are many of them but I am using Albers' equal area conic projection. Essentially maps the sphere (globe) onto a cone and then unrolls the cone onto a plane
-    var albersProjection = d3.geoAlbers();
+    var albersProjection = d3.geoAlbersUsa();
 
     // create path. paths are functions that translate GEOJson features into svg path data
     // GEOJson is a json format for representing geographical features, like Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon
     // the path function can handle all the GEOJson features
     // specify the projection that should be used to translate the geo locations from the GEOJson to cartesian coordinates
-    var path = d3.geoPath(albersProjection);
+    // d3.geoPath uses the AlbersUsa projection by default
+    var path = d3.geoPath();
 
     // get the json of the US from the d3.js site
     // perhaps I can just use the geoalbers projection for my points?
     // http://bl.ocks.org/michellechandra/0b2ce4923dc9b5809922
     // http://bl.ocks.org/phil-pedruco/7745589
-    
+
     d3.json('https://d3js.org/us-10m.v1.json').then(function (usData) {
         // TopoJSON is an extension of GeoJSON that includes topology. Rather than representing geometries discretely,
         // geometries are stitched together from shared line segments called arcs.
-        
-        d3.select('svg')
-            // add a wrapper element
-            .append('g')
-            // define the selector to which we will join data.
-            .selectAll('path')
-            // join topojson feature data for us states
-            .data(topojson.feature(usData, usData.objects.states).features)
-            // get a selection of all the data points (states) that have no corresponding DOM element
-            .enter()
-            // now add a path element for each state in the selection
-            // this returns a new selection of all the path elements that were just added
+
+
+        var svg = d3.select('svg');
+
+        // add a wrapper element for the state path element
+        svg.append('g')
+            // add a single path element
             .append('path')
-            // major magic going on here. we're adding a d attribute and passing in the path function defined above
+            // add only one data point, which is a GeoJson MultiLineString geometry object
+            // topojson.mesh
+            .datum(topojson.mesh(usData, usData.objects.states), function (a, b) { return a !== b; })
+            // get a selection of all the data points (states) that have no corresponding DOM element
             // the path function takes the GeoJson data and translates it into svg path data
             .attr('d', d3.geoPath());
+
+        // add wrapper for coordinates
+        svg.append('g')
+            .append('circle')
+            .attr('r', 5)
+            .attr('transform', 'translate(' + albersProjection([-85.8344, 41.5823]) + ')');
+        //     d3.select('svg')
+        //         // add a wrapper element
+        //         .append('g')
+        //         // define the selector to which we will join data.
+        //         .selectAll('path')
+        //         // join topojson feature data for us states
+        //         .data(topojson.feature(usData, usData.objects.states).features)
+        //         // get a selection of all the data points (states) that have no corresponding DOM element
+        //         .enter()
+        //         // now add a path element for each state in the selection
+        //         // this returns a new selection of all the path elements that were just added
+        //         .append('path')
+        //         // major magic going on here. we're adding a d attribute and passing in the path function defined above
+        //         // the path function takes the GeoJson data and translates it into svg path data
+        //         .attr('d', d3.geoPath());
     });
 </script>
