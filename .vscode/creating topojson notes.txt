@@ -1,0 +1,24 @@
+first, get cartographic boundary shapefiles for the us from the census bureau.
+cartographic boundary shapefiles are simplified representation of selected geographical areas from the Census bureau's MAF/TIGER geographic database.
+probably want to grab the boundary of the entire nation and of all the states
+https://www.census.gov/geo/maps-data/data/tiger-cart-boundary.html
+
+then use a shapefile parser to take the shapefile and create GeoJson from it.
+this actually reads the shapefile (in binary) as well as the included .dbf file which gives attributes to the data in the shapefile
+https://github.com/mbostock/shapefile
+
+once the shapefile has been converted to GeoJson, we could view it in the browser,
+but it would be faster to apply a projection to it first as opposed to doing that at runtime
+for this, use geoproject in d3-geo-projection, which takes a javascript function, the name of the GeoJson file, and the name of the new file to create
+https://github.com/d3/d3-geo-projection/blob/master/README.md#geoproject
+
+need to figure out what projection to use. seems like it should be Albers' equal-area-conic projection for the us.
+But this is what I thought I was using earlier. I may need to try a few to see what works?
+definitely use fitsize. look into parallels() and rotate()?
+
+
+the resulting GeoJson file from this will be quite large. Simplify it by converting it into topojson.
+TopoJson files are much smaller than GeoJson files.
+TopoJson represents lines and polygons as sequences of arcs as opposed to sequences of coordinates. Plus some other crap.
+use geo2topo to convert to TopoJson
+https://github.com/topojson/topojson-server/blob/master/README.md#geo2topo
