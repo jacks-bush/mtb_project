@@ -30,5 +30,16 @@ finally use topoquantize to represent data as integers as opposed to long floati
 https://github.com/topojson/topojson-client/blob/master/README.md#topoquantize
 
 
+install shapefile parser
+npm install -g shapefile
+
+cd shapefiles
+shp2json cb_2017_us_nation_5m.shp -o nation.json
+shp2json cb_2017_us_state_500k.shp -o states.json
+
+npm install -g @mapbox/geojson-merge
+geojson-merge nation.json states.json > combined.geojson
+
+
 
 
