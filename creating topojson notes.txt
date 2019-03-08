@@ -18,7 +18,17 @@ definitely use fitsize. look into parallels() and rotate()?
 
 
 the resulting GeoJson file from this will be quite large. Simplify it by converting it into topojson.
-TopoJson files are much smaller than GeoJson files.
+TopoJson files are much smaller than GeoJson files. Data is stored much more efficiently.
 TopoJson represents lines and polygons as sequences of arcs as opposed to sequences of coordinates. Plus some other crap.
 use geo2topo to convert to TopoJson
 https://github.com/topojson/topojson-server/blob/master/README.md#geo2topo
+
+then use toposimplify to remove coordinates using Visvalingham's algorithm
+https://github.com/topojson/topojson-simplify/blob/master/README.md#toposimplify
+
+finally use topoquantize to represent data as integers as opposed to long floating point numbers
+https://github.com/topojson/topojson-client/blob/master/README.md#topoquantize
+
+
+
+
