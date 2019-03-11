@@ -1,14 +1,20 @@
 from urllib.request import urlopen
 from urllib.parse import quote_plus
 from bs4 import BeautifulSoup
+from zipfile import ZipFile
 import json
 
 BASEPAGEURL = "https://www.mtbproject.com/featured/featured-rides/highest-rated"
 GOOGLEAPIBASEURL = "https://maps.googleapis.com/maps/api/geocode/"
 
-
 def main():
     """Main entry point of project"""
+
+    
+
+
+
+
     # jsonObj = json.load(open('featuredRides.json', 'r', encoding='utf-8'))
     # stateDict = {}
     # for rideObj in jsonObj:
@@ -24,13 +30,12 @@ def main():
     # print(rideList)
 
     # get google api key
-    apiKey = json.load(open('SuperSecretAPIKey.json', 'r', encoding='utf-8'))['key']
+    # apiKey = json.load(open('SuperSecretAPIKey.json', 'r', encoding='utf-8'))['key']
 
-    scraper = MtbProjectScraper(BASEPAGEURL, GOOGLEAPIBASEURL, apiKey)
-    scraper.getInfoFromSites()
-    with open('featuredRides.json', 'w', encoding='utf-8') as f:
-        f.write(scraper.toJSON())
-
+    # scraper = MtbProjectScraper(BASEPAGEURL, GOOGLEAPIBASEURL, apiKey)
+    # scraper.getInfoFromSites()
+    # with open('featuredRides.json', 'w', encoding='utf-8') as f:
+    #     f.write(scraper.toJSON())
 
 class FeaturedRide:
     """Holds information about an individual featured ride."""

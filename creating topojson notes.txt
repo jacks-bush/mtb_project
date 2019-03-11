@@ -40,6 +40,24 @@ shp2json cb_2017_us_state_500k.shp -o states.json
 npm install -g @mapbox/geojson-merge
 geojson-merge nation.json states.json > combined.geojson
 
+npm install -g d3-geo-projection
 
+geoproject 'd3.geoAlbersUsa().fitSize([960, 600], d)' < nation.json > nation-albers.json
+geoproject 'd3.geoAlbersUsa().fitSize([960, 600], d)' < states.json > states-albers.json
+d3.geoAlbersUsa().scale(1280).translate([960 / 2, 600 / 2])
 
+I think what I need to do is write all of this crap in Python. so it's easily replicated and changed.
+Need to run all of the topojson, geojson stuff through the command line.
+problem is that we want the points, outline, and states to be separate so we can draw them separately
+but we want them to be projected, quantized, etc together so that they're accurate
+
+should do it all programmatically?
+download the shapefiles, unzip them, turn them into GeoJson files
+then take the coordinates and turn them into GeoJson and combine other two GeoJson files into one file?
+then project that file all at once
+
+then separate the state, nation outline, and points into separate topojson objects all within the same topojson file
+then simplify and topoquantize all at once?
+
+the downloading of the shapefiles, the unzipping and 
 
