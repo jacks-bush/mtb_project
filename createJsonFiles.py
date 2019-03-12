@@ -3,25 +3,29 @@ from zipfile import ZipFile
 import json
 import subprocess
 
-BASE_SHAPE_FILE_URL = 'https://www.census.gov/geo/tiger/GENZ2017/shp/'
+BASE_SHAPE_FILE_URL = 'https://www2.census.gov/geo/tiger/GENZ2017/shp/'
 STATE_SHAPE_FILE_NAME = 'cb_2017_us_state_500k.zip'
 NATION_SHAPE_FILE_NAME = 'cb_2017_us_nation_5m.zip'
 
 
 def main():
     # download the shapefiles, unzip them
-    downloadAndUnzipFile(STATE_SHAPE_FILE_NAME, 'shapefiles/states.zip')
-    downloadAndUnzipFile(NATION_SHAPE_FILE_NAME, 'shapefiles/nation.zip')
+    #     downloadAndUnzipFile(STATE_SHAPE_FILE_NAME, 'states.zip')
+    #     downloadAndUnzipFile(NATION_SHAPE_FILE_NAME, 'nation.zip')
 
-    # turn the shapefiles into geojson files
-    subprocess.run(
-        'shp2json shapefiles/cb_2017_us_nation_5m.shp -o shapefiles/nation.json')
-    subprocess.run(
-        'shp2json shapefiles/cb_2017_us_state_500k.shp -o shapefiles/states.json')
+    # turn the shapefiles into geojson filesS
+    subprocess.call(
+        'shp2json cb_2017_us_nation_5m.shp -o nation.json', shell=True)
+    subprocess.call(
+        'shp2json cb_2017_us_state_500k.shp -o states.json', shell=True)
 
     # take the coordinates and turn them into GeoJson Points
-    test = createGeoJsonStringForPoints()
+    print(createGeoJsonStringForPoints())
     # combine the nation GsoJson and states GeoJson and locations GeoJson into one FeatureCollection
+    # just get features attribute from both nation.json and states.json and add them to points geojson
+    # or perhaps should just create one topojson file first and then project that all at once?
+    nationJson = json.load(open('nation.json', 'r', encoding='utf-8'))
+    statesJson = json.load(open('nation.json', 'r', encoding='utf-8'))
     # project single GeoJson file
     # then break features back out into separate geojson files
     # turn these GeoJson files into topojson files and combine them into a single topojson file
@@ -32,7 +36,7 @@ def main():
 def downloadAndUnzipFile(url, filename):
     # download and save file
     with open(filename, 'wb') as f:
-        f.write(urlopen(url).read())
+        f.write(urlopen(BASE_SHAPE_FILE_URL + url).read())
     # extract contents
     with ZipFile(filename) as z:
         z.extractall()
@@ -51,12 +55,13 @@ def createGeoJsonStringForPoints():
             'type': 'Feature',
             'geometry': {
                 'type': 'Point',
-                'coordinates': [rideObj.long, rideObj.lat]
+                'coordinates': [rideObj['long'], rideObj['lat']]
             },
             'properties': rideObj
         })
-    
+
     # create outer Features dict and use json.dumps to get geojson string
-    return json.dumps({'type':'FeatureCollection', 'features': features})
+    return json.dumps({'type': 'FeatureCollection', 'features': features})
+
 
 main()
