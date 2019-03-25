@@ -59,5 +59,3 @@ then project that file all at once
 then separate the state, nation outline, and points into separate topojson objects all within the same topojson file
 then simplify and topoquantize all at once?
 
-the downloading of the shapefiles, the unzipping and 
-
