@@ -1,2 +1,2 @@
 
-C:\Users\jackson\Documents\Side Projects\MTB Project>  "C:\Users\jackson\AppData\Roaming\npm\\node.exe"  "C:\Users\jackson\AppData\Roaming\npm\\node_modules\d3-geo-projection\bin\geoproject" 'd3.geoAlbersUsa().fitSize([960, 600], d)'
+C:\Users\jackson\Documents\Side Projects\MTB Project>  "C:\Users\jackson\AppData\Roaming\npm\\node.exe"  "C:\Users\jackson\AppData\Roaming\npm\\node_modules\d3-geo-projection\bin\geoproject" 'd3.geoAlbersUsa().fitSize([960, 600], d)' states.json

@@ -25,9 +25,9 @@ def main():
         f.write(createGeoJsonStringForPoints())
 
     # now project all three files
-    subprocess.call("geoproject 'd3.geoAlbersUsa().fitSize([960, 600], d)' < nation.json > nation-albers.json", shell=True)
-    subprocess.call("geoproject 'd3.geoAlbersUsa().fitSize([960, 600], d)' < states.json > states-albers.json", shell=True)
-    subprocess.call("geoproject 'd3.geoAlbersUsa().fitSize([960, 600], d)' < points.json > points-albers.json", shell=True)
+    subprocess.call("geoproject 'd3.geoAlbersUsa(^^^).fitSize([960, 600], d^^^)' nation.json -o nation-albers.json", shell=True)
+    subprocess.call("geoproject 'd3.geoAlbersUsa().fitSize([960, 600], d)' states.json > states-albers.json", shell=True)
+    subprocess.call("geoproject 'd3.geoAlbersUsa().fitSize([960, 600], d)' points.json > points-albers.json", shell=True)
 
     # combine these three geojson files into one single topojson file
     subprocess.call('geo2topo nation=nation-albers.json states=states-albers.json points=points-albers.json > combined.json', shell=True)
