@@ -59,3 +59,9 @@ then project that file all at once
 then separate the state, nation outline, and points into separate topojson objects all within the same topojson file
 then simplify and topoquantize all at once?
 
+
+NEXT:
+Add tooltip labels for the points.
+
+Look at making a choropleth. Should be pretty simple. Just need create a dict of states and number of featured rides.
+Hardest part will probably be picking a color pallete.

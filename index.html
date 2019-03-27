@@ -2,12 +2,29 @@
 
 <head>
     <style>
-        path {
+        .states {
+            stroke-width: 0.5;
             stroke-linejoin: round;
+            stroke-linecap: round;
+        }
+
+        .points {
+            fill: #ffa600;
+            stroke-width: .5;
+        }
+
+        .main {
+            stroke: #000;
+            fill: none;
+        }
+
+        .nation {
+            fill: #003f5c;
+            stroke-width: 1;
         }
     </style>
 </head>
-<svg class="main" fill="none" stroke="#000" stroke-linejoin="round" stroke-linecap="round"></svg>
+<svg class="main"></svg>
 <script src="https://d3js.org/d3.v5.js"></script>
 <script src="https://d3js.org/d3-array.v1.min.js"></script>
 <script src="https://d3js.org/d3-geo.v1.min.js"></script>
@@ -48,18 +65,15 @@
     var path = d3.geoPath()
         .pointRadius(1.5);
 
-    // load the Featured Rides json data
-    // annoying, but the easiest way to get this was to actually host it on github.
-    // get the json of the US from the d3.js site
-    var ridePromise = d3.json('https://jacks-bush.github.io/mtb_project/featuredRides.json');
-    var topojsonPromise = d3.json('https://jacks-bush.github.io/mtb_project/combined.json');
-
-    Promise.all([ridePromise, topojsonPromise]).then(function (values) {
-        var ridesData = values[0];
-        var usData = values[1];
-
+    d3.json('https://jacks-bush.github.io/mtb_project/combined.json').then(function (usData) {
         // TopoJSON is an extension of GeoJSON that includes topology. Rather than representing geometries discretely,
         // geometries are stitched together from shared line segments called arcs.
+
+        // draw the outline of the us
+        svg.append('g')
+            .append('path')
+            .attr('class', 'nation')
+            .attr('d', path(topojson.feature(usData, usData.objects.nation)));
 
         // draw all the states
         // add a wrapper element for the state path element
@@ -71,37 +85,30 @@
             .datum(topojson.mesh(usData, usData.objects.states), function (a, b) { return a !== b; })
             // get a selection of all the data points (states) that have no corresponding DOM element
             // the path function takes the GeoJson data and translates it into svg path data
-            .attr('stroke-width', 0.5)
-            .attr('stroke-linejoin', 'round')
-            .attr('stroke-linecap', 'round')
+            .attr('class', 'states')
             .attr('d', path);
 
-        // draw the outline of the us
-        svg.append('g')
-            .append('path')
-            .attr('d', path(topojson.feature(usData, usData.objects.nation)));
+        // get the list of GeoJson features from the TopoJson
+        var pointsData = topojson.feature(usData, usData.objects.points).features
 
-        svg.append('g')
-            .append('path')
-            .attr('d', path(topojson.feature(usData, usData.objects.points)))
+        // create a selector with the rideData bound to g elements
+        var featuredRides = svg.append('g')
+            .attr('text-anchor', 'middle')
+            .attr('font-family', 'sans-serif')
+            .attr('font-size', '10')
+            // define the selector to which we will join data
+            .selectAll('g')
+            // pointsData is a list of GeoJson features
+            .data(pointsData)
+            // joins wrapper elements to match all of the unbound data points defined in the data() function above
+            // this should append a wrapper g element for each ride in the list
+            .join('g')
+            .attr('transform', function (d) { return 'translate(' + d.geometry.coordinates + ')' });
 
-        // // create a selector with the rideData bound to g elements
-        // var featuredRides = svg.append('g')
-        //     .attr('text-anchor', 'middle')
-        //     .attr('font-family', 'sans-serif')
-        //     .attr('font-size', '10')
-        //     // define the selector to which we will join data
-        //     .selectAll('g')
-        //     // ridesData is a list of json objects.
-        //     .data(ridesData)
-        //     // joins wrapper elements to match all of the unbound data points defined in the data() function above
-        //     // this should append a wrapper g element for each ride in the list
-        //     .join('g')
-        //     .attr('transform', function (d) { return 'translate(' + albersProjection([d.long, d.lat]) + ')' });
-
-        // // add the circle element.
-        // featuredRides.append('circle')
-        //     .attr('r', 2);
+        // add the circle element.
+        featuredRides.append('circle')
+            .attr('class', 'points')
+            .attr('r', 1.5);
 
         // add the label
         // featuredRides.append('text')
