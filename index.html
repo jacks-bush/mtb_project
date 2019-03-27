@@ -2,6 +2,9 @@
 
 <head>
     <style>
+        path {
+            stroke-linejoin: round;
+        }
     </style>
 </head>
 <svg class="main" fill="none" stroke="#000" stroke-linejoin="round" stroke-linecap="round"></svg>
@@ -42,7 +45,8 @@
         .attr('width', width)
         .attr('height', height);
 
-    var path = d3.geoPath();
+    var path = d3.geoPath()
+        .pointRadius(1.5);
 
     // load the Featured Rides json data
     // annoying, but the easiest way to get this was to actually host it on github.
@@ -80,8 +84,6 @@
         svg.append('g')
             .append('path')
             .attr('d', path(topojson.feature(usData, usData.objects.points)))
-            .attr('r', 2);
-
 
         // // create a selector with the rideData bound to g elements
         // var featuredRides = svg.append('g')
