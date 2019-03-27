@@ -77,23 +77,29 @@
             .append('path')
             .attr('d', path(topojson.feature(usData, usData.objects.nation)));
 
-        // create a selector with the rideData bound to g elements
-        var featuredRides = svg.append('g')
-            .attr('text-anchor', 'middle')
-            .attr('font-family', 'sans-serif')
-            .attr('font-size', '10')
-            // define the selector to which we will join data
-            .selectAll('g')
-            // ridesData is a list of json objects.
-            .data(ridesData)
-            // joins wrapper elements to match all of the unbound data points defined in the data() function above
-            // this should append a wrapper g element for each ride in the list
-            .join('g')
-            .attr('transform', function (d) { return 'translate(' + albersProjection([d.long, d.lat]) + ')' });
-
-        // add the circle element.
-        featuredRides.append('circle')
+        svg.append('g')
+            .append('path')
+            .attr('d', path(topojson.feature(usData, usData.objects.points)))
             .attr('r', 2);
+
+
+        // // create a selector with the rideData bound to g elements
+        // var featuredRides = svg.append('g')
+        //     .attr('text-anchor', 'middle')
+        //     .attr('font-family', 'sans-serif')
+        //     .attr('font-size', '10')
+        //     // define the selector to which we will join data
+        //     .selectAll('g')
+        //     // ridesData is a list of json objects.
+        //     .data(ridesData)
+        //     // joins wrapper elements to match all of the unbound data points defined in the data() function above
+        //     // this should append a wrapper g element for each ride in the list
+        //     .join('g')
+        //     .attr('transform', function (d) { return 'translate(' + albersProjection([d.long, d.lat]) + ')' });
+
+        // // add the circle element.
+        // featuredRides.append('circle')
+        //     .attr('r', 2);
 
         // add the label
         // featuredRides.append('text')

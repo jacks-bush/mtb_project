@@ -25,9 +25,9 @@ def main():
         f.write(createGeoJsonStringForPoints())
 
     # now project all three files
-    subprocess.call("geoproject 'd3.geoAlbersUsa().fitSize([960, 600], d)' nation.json > nation-albers.json", shell=True)
-    subprocess.call("geoproject 'd3.geoAlbersUsa().fitSize([960, 600], d)' states.json > states-albers.json", shell=True)
-    subprocess.call("geoproject 'd3.geoAlbersUsa().fitSize([960, 600], d)' points.json > points-albers.json", shell=True)
+    subprocess.call("geoproject 'd3.geoAlbersUsa()' nation.json > nation-albers.json", shell=True)
+    subprocess.call("geoproject 'd3.geoAlbersUsa()' states.json > states-albers.json", shell=True)
+    subprocess.call("geoproject 'd3.geoAlbersUsa()' points.json > points-albers.json", shell=True)
 
     # combine these three geojson files into one single topojson file
     # use toposimplify to remove coordinates per Visvalingham's algorithm
