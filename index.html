@@ -48,7 +48,7 @@
     // annoying, but the easiest way to get this was to actually host it on github.
     // get the json of the US from the d3.js site
     var ridePromise = d3.json('https://jacks-bush.github.io/mtb_project/featuredRides.json');
-    var topojsonPromise = d3.json('https://unpkg.com/us-atlas@1/us/10m.json');
+    var topojsonPromise = d3.json('https://jacks-bush.github.io/mtb_project/combined.json');
 
     Promise.all([ridePromise, topojsonPromise]).then(function (values) {
         var ridesData = values[0];

@@ -25,22 +25,20 @@ def main():
         f.write(createGeoJsonStringForPoints())
 
     # now project all three files
-    subprocess.call("geoproject 'd3.geoAlbersUsa(^^^).fitSize([960, 600], d^^^)' nation.json -o nation-albers.json", shell=True)
+    subprocess.call("geoproject 'd3.geoAlbersUsa().fitSize([960, 600], d)' nation.json > nation-albers.json", shell=True)
     subprocess.call("geoproject 'd3.geoAlbersUsa().fitSize([960, 600], d)' states.json > states-albers.json", shell=True)
     subprocess.call("geoproject 'd3.geoAlbersUsa().fitSize([960, 600], d)' points.json > points-albers.json", shell=True)
 
     # combine these three geojson files into one single topojson file
-    subprocess.call('geo2topo nation=nation-albers.json states=states-albers.json points=points-albers.json > combined.json', shell=True)
+    # use toposimplify to remove coordinates per Visvalingham's algorithm
+    # and use topoquantize to represent values as integers as opposed to floating point values
+    combineFiles = """
+    geo2topo nation=nation-albers.json states=states-albers.json points=points-albers.json \\
+        | toposimplify -p 1 -f \\
+        | topoquantize 1e5 > combined.json
+    """
+    subprocess.call(combineFiles, shell=True)
 
-    # combine the nation GsoJson and states GeoJson and locations GeoJson into one FeatureCollection
-    # just get features attribute from both nation.json and states.json and add them to points geojson
-    # or perhaps should just create one topojson file first and then project that all at once?
-    # nationJson = json.load(open('nation.json', 'r', encoding='utf-8'))
-    # statesJson = json.load(open('states.json', 'r', encoding='utf-8'))
-    # project single GeoJson file
-    # then break features back out into separate geojson files
-    # turn these GeoJson files into topojson files and combine them into a single topojson file
-    # then do all the quantizing and simplifying on this one file
     pass
 
 
