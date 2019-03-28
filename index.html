@@ -24,13 +24,22 @@
         }
     </style>
 </head>
-<svg class="main"></svg>
+
+<body>
+    <svg class="main"></svg>
+</body>
 <script src="https://d3js.org/d3.v5.js"></script>
 <script src="https://d3js.org/d3-array.v1.min.js"></script>
 <script src="https://d3js.org/d3-geo.v1.min.js"></script>
 <script src="https://d3js.org/d3-fetch.v1.min.js"></script>
 <script src="https://unpkg.com/topojson-client@3"></script>
 <script>
+    // define tooltip object
+    var tooltip = d3.select('body')
+        .append('div')
+        .attr('class', 'tooltip')
+        .style('opacity', 0);
+
     // basic steps for creating a map
     // 1. Create a projection function
     // 2. Create a path function
@@ -108,7 +117,14 @@
         // add the circle element.
         featuredRides.append('circle')
             .attr('class', 'points')
-            .attr('r', 1.5);
+            .attr('r', 1.5)
+            .on('mouseover', function (d, i) {
+                // transition tooltip to .9 opacity or so
+                // and set location and text
+            })
+            .on('mouseleave', function (d) {
+                // transition the opacity back to 0
+            });
 
         // add the label
         // featuredRides.append('text')
