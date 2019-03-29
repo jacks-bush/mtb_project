@@ -60,7 +60,6 @@ then separate the state, nation outline, and points into separate topojson objec
 then simplify and topoquantize all at once?
 
 
-NEXT:
 Add tooltip labels for the points.
 Basically define a div with some text and class of tooltip. Set the opacity to 0.
 Then define mouseover events for each point.
@@ -68,6 +67,19 @@ on mouseover - transition to .9 or so opacity
 on mousemove - set the text of the tooltip and its coordinates. d3.mouse(this) looks like it returns coordinates that can be used to set the position of the tooltip
 on mouseleave - transition to 0 opacity
 
+What should tooltip say?
+Name of Featured ride
+Location
+Rank
+Length?
+
+ex.
+The Whole Enchilada
+Vandalia, UT
+# 1
+
+NEXT:
+Style those mofo tooltips!
 Also should probably give the map a title and explanation. 
 
 Look at making a choropleth. Should be pretty simple. Just need create a dict of states and number of featured rides.

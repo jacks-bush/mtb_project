@@ -22,6 +22,19 @@
             fill: #003f5c;
             stroke-width: 1;
         }
+
+        .tooltip {
+            position: absolute;
+            text-align: center;
+            width: 60px;
+            height: 28px;
+            padding: 2px;
+            font: 8px sans-serif;
+            background: lightsteelblue;
+            border: 0px;
+            border-radius: 8px;
+            pointer-events: none;
+        }
     </style>
 </head>
 
@@ -118,12 +131,25 @@
         featuredRides.append('circle')
             .attr('class', 'points')
             .attr('r', 1.5)
+            // add mouseover event listener
             .on('mouseover', function (d, i) {
-                // transition tooltip to .9 opacity or so
-                // and set location and text
+                tooltip
+                    // set text of tooltip
+                    .html(d.properties.name + '</br>' + d.properties.city + ',' + d.properties.state + '</br>#' + d.properties.position)
+                    // set position
+                    .style('left', d3.event.pageX + 'px')
+                    .style('top', d3.event.pageY + 'px')
+                    // transition tooltip to .85 opacity
+                    .transition()
+                    .duration(200)
+                    .style('opacity', .85);
             })
-            .on('mouseleave', function (d) {
+            // add mouseout event listener
+            .on('mouseout', function (d) {
                 // transition the opacity back to 0
+                tooltip.transition()
+                    .duration(200)
+                    .style('opacity', 0);
             });
 
         // add the label
