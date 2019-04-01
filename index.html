@@ -26,10 +26,10 @@
         .tooltip {
             position: absolute;
             text-align: center;
-            width: 60px;
-            height: 28px;
+            width: auto;
+            height: auto;
             padding: 2px;
-            font: 8px sans-serif;
+            font: 10px sans-serif;
             background: lightsteelblue;
             border: 0px;
             border-radius: 8px;
@@ -84,8 +84,7 @@
         .attr('width', width)
         .attr('height', height);
 
-    var path = d3.geoPath()
-        .pointRadius(1.5);
+    var path = d3.geoPath();
 
     d3.json('https://jacks-bush.github.io/mtb_project/combined.json').then(function (usData) {
         // TopoJSON is an extension of GeoJSON that includes topology. Rather than representing geometries discretely,
@@ -130,7 +129,7 @@
         // add the circle element.
         featuredRides.append('circle')
             .attr('class', 'points')
-            .attr('r', 1.5)
+            .attr('r', 3)
             // add mouseover event listener
             .on('mouseover', function (d, i) {
                 tooltip
@@ -142,7 +141,7 @@
                     // transition tooltip to .85 opacity
                     .transition()
                     .duration(200)
-                    .style('opacity', .85);
+                    .style('opacity', .75);
             })
             // add mouseout event listener
             .on('mouseout', function (d) {

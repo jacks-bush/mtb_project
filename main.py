@@ -100,6 +100,10 @@ class MtbProjectScraper:
         featuredRide.state = cityState.split(',')[1]
         featuredRide.position = position
 
+        # if the name has an ellipsis at the end, need to go to the site of the ride in order to get the full name
+        if (featuredRide.name.endswith('...')):
+            featuredRide.name = self.getFullNameForFeaturedRide(rideCardContainer)
+        
         self.getLatAndLongForFeaturedRide(featuredRide)
 
         return featuredRide
@@ -112,6 +116,12 @@ class MtbProjectScraper:
 
         featuredRide.lat = jsonResponse['results'][0]['geometry']['location']['lat']
         featuredRide.long = jsonResponse['results'][0]['geometry']['location']['lng']
+
+    def getFullNameForFeaturedRide(self, rideCardContainer):
+        destination = rideCardContainer.find('a')['href']
+
+        urlopen(destination)
+
 
     def stripSpace(self, text):
         return text.replace(' ', '')

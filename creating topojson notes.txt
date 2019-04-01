@@ -84,3 +84,6 @@ Also should probably give the map a title and explanation.
 
 Look at making a choropleth. Should be pretty simple. Just need create a dict of states and number of featured rides.
 Hardest part will probably be picking a color pallete. And deciding whether to give categories or a spectrum. 0 - 31 or something.
+
+In order to get the full name of these rides I think I will need to check for ... or \u2026 and if that is present, need to grab the link to the ride site
+itself and get the full name from there.
